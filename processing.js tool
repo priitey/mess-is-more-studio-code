@@ -1,0 +1,93 @@
+PImage img, imgCreate, imgDestroy, imgRebirth, imgRecreate, imgPtn1;
+
+void setup() {
+ size(1080,1080);
+ frameRate(2);
+ 
+ img = loadImage("orpheus2.png"); 
+ img.resize(width, height );
+ imgCreate = loadImage("create.png");
+ imgDestroy = loadImage("destroy.png");
+ imgRebirth = loadImage("rebirth.png");
+ imgRecreate = loadImage("recreate.png");
+ imgPtn1 = loadImage("MUSTAPHA_MACHINE_PATTERN_1.png");
+ 
+}
+
+void draw(){
+  background (255,0,0);
+  fill(0);
+  noStroke();
+  
+  float tilesX = 3;
+  float tilesY = 8;
+  float tileW = width/tilesX;
+  float tileH = width/tilesY;
+
+  
+  for (int x = 0; x < tilesX; x++) {
+    for (int y = 0; y < tilesY; y++) {
+      
+      
+      int selector = int(random(4));
+      
+      if (selector == 0) {
+        filter(POSTERIZE,2);
+        push();
+        translate(x*tileW,y*tileH);
+        fill(255);
+        rect(0, 0, tileW, tileH);
+        pop();
+       
+        
+      } else if (selector == 1) {
+        
+        
+        int sx = int(x*tileW);
+        int sy = int(y*tileH);
+        int sw = int(tileW);
+        int sh = int(tileH);
+        
+        int dx = int(x*tileW);
+        int dy = int(y*tileH);
+        int dw = int(tileW);
+        int dh = int(tileH);
+        
+        copy(img,sx,sy,sw,sh,dx,dy,dw,dh);
+
+      } else if  (selector == 2) {
+        push();
+        filter(INVERT);
+        translate(x*tileW,y*tileH);
+        
+        int selector2 = int(random(4));
+
+        if (selector2 == 0) {
+          image(imgCreate, 0, 0, tileW, tileH);
+          image(imgPtn1, 0, 0, tileW*2, tileH*2);
+          blendMode(INVERT);
+        } else if (selector2 == 1) {
+          image(imgDestroy, 0, 0, tileW, tileH);
+          image(imgPtn1, 0, 0, tileW*2, tileH*2);
+          blendMode(INVERT);
+        } else if (selector2 == 2) {
+          image(imgRebirth, 0, 0, tileW, tileH);
+          image(imgPtn1, 0, 0, tileW*2, tileH*2);
+          blendMode(INVERT);
+        } else if (selector2 == 3) {
+          image(imgRecreate, 0, 0, tileW, tileH);
+          image(imgPtn1, 0, 0, tileW*2, tileH*2);
+          blendMode(INVERT);
+        } 
+        pop();
+       }  
+    }
+  }
+ 
+}
+
+void mousePressed(){
+ 
+  saveFrame("/Users/priteyy/Desktop/RMIT 2022/Semester 02/Mess is More/A2 major project/orpheus tool screen captures/orpheus##.png");
+  
+}
